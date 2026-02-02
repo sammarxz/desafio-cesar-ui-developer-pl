@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Phone Country Selector
+   ========================================================================== */
+.phone-select {
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.phone-select__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: 0 var(--space-12) 0 var(--input-h-pad);
+  height: 100%;
+  min-height: var(--btn-lg-h);
+  cursor: pointer;
+  border-right: 1px solid var(--color-gray-300);
+  border-radius: var(--input-radius) 0 0 var(--input-radius);
+  transition: background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.phone-select__trigger:hover {
+  background: var(--color-bg);
+}
+
+.phone-select__flag {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.phone-select__code {
+  font-size: 14px;
+  font-weight: var(--weight-medium);
+  color: var(--color-text-dark);
+}
+
+.phone-select__chevron {
+  color: var(--color-text-muted);
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.phone-select[data-open="true"] .phone-select__chevron {
+  transform: rotate(180deg);
+}
+
+.phone-select__dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + var(--space-4));
+  left: 0;
+  min-width: 200px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--input-radius);
+  padding: var(--space-8) 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.phone-select[data-open="true"] .phone-select__dropdown {
+  display: block;
+}
+
+.phone-select__option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  padding: var(--space-10) var(--input-h-pad);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--color-text-dark);
+  transition: background var(--transition-fast);
+}
+
+.phone-select__option:hover {
+  background: var(--color-bg);
+}
+
+.phone-select__option[aria-selected="true"] {
+  background: var(--color-orange-light);
+  font-weight: var(--weight-medium);
+}
+
+.phone-select__option-flag {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.phone-select__option-code {
+  margin-left: auto;
+  color: var(--color-text-muted);
+  font-size: var(--text-caption);
+}
