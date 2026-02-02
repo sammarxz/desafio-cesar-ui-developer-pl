@@ -24,6 +24,11 @@
   background: var(--color-bg);
 }
 
+.phone-select__trigger:focus-visible {
+  outline: 2px solid var(--color-orange-500);
+  outline-offset: 2px;
+}
+
 .phone-select__flag {
   font-size: 20px;
   line-height: 1;
@@ -75,8 +80,14 @@
   transition: background var(--transition-fast);
 }
 
-.phone-select__option:hover {
+.phone-select__option:hover,
+.phone-select__option.phone-select__option--focused {
   background: var(--color-bg);
+}
+
+.phone-select__option:focus-visible {
+  outline: 2px solid var(--color-orange-500);
+  outline-offset: -2px;
 }
 
 .phone-select__option[aria-selected="true"] {

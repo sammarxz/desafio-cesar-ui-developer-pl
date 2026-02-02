@@ -32,10 +32,40 @@ document.addEventListener('DOMContentLoaded', function () {
   //  Form — validation, clear buttons, submission
   // ══════════════════════════════════════════════════════════════════════════
 
-  // Mark inputs as "touched" on blur for CSS validation
+  // ── Aria-invalid helpers ──
+
+  var ERROR_MESSAGES = {
+    'first-name': 'First name is required',
+    'last-name': 'Last name is required',
+    'email': 'Please enter a valid email address'
+  };
+
+  function updateAriaInvalid(input) {
+    var errorSpan = document.getElementById(input.id + '-error');
+    if (!errorSpan) return;
+
+    if (!input.validity.valid) {
+      input.setAttribute('aria-invalid', 'true');
+      errorSpan.textContent = ERROR_MESSAGES[input.id] || 'This field is required';
+    } else {
+      input.setAttribute('aria-invalid', 'false');
+      errorSpan.textContent = '';
+    }
+  }
+
+  // Mark inputs as "touched" on blur for CSS validation + aria-invalid
   form.querySelectorAll('.form-field__input').forEach(function (input) {
     input.addEventListener('blur', function () {
       this.classList.add('touched');
+      if (this.hasAttribute('aria-invalid')) {
+        updateAriaInvalid(this);
+      }
+    });
+
+    input.addEventListener('input', function () {
+      if (this.classList.contains('touched') && this.hasAttribute('aria-invalid')) {
+        updateAriaInvalid(this);
+      }
     });
   });
 
@@ -46,6 +76,11 @@ document.addEventListener('DOMContentLoaded', function () {
       if (input) {
         input.value = '';
         input.classList.remove('touched');
+        if (input.hasAttribute('aria-invalid')) {
+          input.setAttribute('aria-invalid', 'false');
+          var errorSpan = document.getElementById(input.id + '-error');
+          if (errorSpan) errorSpan.textContent = '';
+        }
         input.focus();
         input.dispatchEvent(new Event('input', { bubbles: true }));
       }
@@ -56,6 +91,11 @@ document.addEventListener('DOMContentLoaded', function () {
     form.reset();
     form.querySelectorAll('.form-field__input').forEach(function (input) {
       input.classList.remove('touched');
+      if (input.hasAttribute('aria-invalid')) {
+        input.setAttribute('aria-invalid', 'false');
+        var errorSpan = document.getElementById(input.id + '-error');
+        if (errorSpan) errorSpan.textContent = '';
+      }
       input.dispatchEvent(new Event('input', { bubbles: true }));
     });
     phoneSelector.reset();
@@ -74,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       form.querySelectorAll('.form-field__input[required]').forEach(function (input) {
         input.classList.add('touched');
+        updateAriaInvalid(input);
       });
 
       if (!form.checkValidity()) {
@@ -163,18 +204,61 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ── Dropdown open/close ──
 
+    function clearFocusedOption() {
+      var options = dropdownEl.querySelectorAll('.phone-select__option');
+      options.forEach(function (opt) {
+        opt.classList.remove('phone-select__option--focused');
+      });
+      triggerEl.removeAttribute('aria-activedescendant');
+    }
+
+    function setFocusedOption(index) {
+      var options = dropdownEl.querySelectorAll('.phone-select__option');
+      clearFocusedOption();
+      if (index >= 0 && index < options.length) {
+        focusedIndex = index;
+        options[index].classList.add('phone-select__option--focused');
+        triggerEl.setAttribute('aria-activedescendant', options[index].id);
+        options[index].scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    function selectOption(index) {
+      var country = COUNTRIES[index];
+      if (!country) return;
+
+      selected = country;
+      flagEl.textContent = country.flag;
+      codeEl.textContent = country.code;
+
+      dropdownEl.querySelectorAll('.phone-select__option').forEach(function (opt) {
+        opt.setAttribute('aria-selected', opt.dataset.country === country.code ? 'true' : 'false');
+      });
+
+      setOpen(false);
+      inputEl.value = applyMask(stripDigits(inputEl.value), country.mask);
+      inputEl.focus();
+    }
+
     function setOpen(open) {
       selectEl.dataset.open = open ? 'true' : 'false';
       triggerEl.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!open) {
+        focusedIndex = -1;
+        clearFocusedOption();
+      }
     }
+
+    var focusedIndex = -1;
 
     // ── Build dropdown options ──
 
-    COUNTRIES.forEach(function (country) {
+    COUNTRIES.forEach(function (country, index) {
       var li = document.createElement('li');
       li.className = 'phone-select__option';
       li.setAttribute('role', 'option');
       li.setAttribute('data-country', country.code);
+      li.id = 'phone-option-' + index;
       if (country.code === selected.code) {
         li.setAttribute('aria-selected', 'true');
       }
@@ -192,25 +276,70 @@ document.addEventListener('DOMContentLoaded', function () {
       setOpen(selectEl.dataset.open !== 'true');
     });
 
+    triggerEl.addEventListener('keydown', function (e) {
+      var isOpen = selectEl.dataset.open === 'true';
+      var optionCount = COUNTRIES.length;
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          if (!isOpen) {
+            setOpen(true);
+            setFocusedOption(0);
+          } else {
+            setFocusedOption(focusedIndex < optionCount - 1 ? focusedIndex + 1 : 0);
+          }
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          if (!isOpen) {
+            setOpen(true);
+            setFocusedOption(optionCount - 1);
+          } else {
+            setFocusedOption(focusedIndex > 0 ? focusedIndex - 1 : optionCount - 1);
+          }
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          if (isOpen && focusedIndex >= 0) {
+            selectOption(focusedIndex);
+          } else if (!isOpen) {
+            setOpen(true);
+            setFocusedOption(0);
+          }
+          break;
+        case 'Escape':
+          if (isOpen) {
+            e.preventDefault();
+            setOpen(false);
+            triggerEl.focus();
+          }
+          break;
+        case 'Home':
+          if (isOpen) {
+            e.preventDefault();
+            setFocusedOption(0);
+          }
+          break;
+        case 'End':
+          if (isOpen) {
+            e.preventDefault();
+            setFocusedOption(optionCount - 1);
+          }
+          break;
+      }
+    });
+
     dropdownEl.addEventListener('click', function (e) {
       var option = e.target.closest('.phone-select__option');
       if (!option) return;
 
       var code = option.dataset.country;
-      var country = COUNTRIES.find(function (c) { return c.code === code; });
-      if (!country) return;
+      var index = COUNTRIES.findIndex(function (c) { return c.code === code; });
+      if (index === -1) return;
 
-      selected = country;
-      flagEl.textContent = country.flag;
-      codeEl.textContent = country.code;
-
-      dropdownEl.querySelectorAll('.phone-select__option').forEach(function (opt) {
-        opt.setAttribute('aria-selected', opt.dataset.country === code ? 'true' : 'false');
-      });
-
-      setOpen(false);
-      inputEl.value = applyMask(stripDigits(inputEl.value), country.mask);
-      inputEl.focus();
+      selectOption(index);
     });
 
     document.addEventListener('click', function (e) {
@@ -280,6 +409,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var completedFilename = zone.querySelector('.file-upload__completed .file-upload__filename');
     var completedSize     = zone.querySelector('.file-upload__completed-size');
 
+    var progressRegion   = zone.querySelector('.file-upload__progress');
+    var completedRegion  = zone.querySelector('.file-upload__completed');
+
     // ── Helpers ──
 
     function formatSize(bytes) {
@@ -295,6 +427,8 @@ document.addEventListener('DOMContentLoaded', function () {
       fileInput.value = '';
       zone.dataset.state = 'idle';
       dragCounter = 0;
+      progressRegion.setAttribute('aria-label', 'File upload progress');
+      completedRegion.setAttribute('aria-label', 'File upload completed');
     }
 
     // ── File handling ──
@@ -320,6 +454,7 @@ document.addEventListener('DOMContentLoaded', function () {
       progressFilename.textContent = file.name;
       progressBarFill.style.width = '0%';
       zone.dataset.state = 'uploading';
+      progressRegion.setAttribute('aria-label', 'Uploading file: ' + file.name);
 
       var progress = 0;
 
@@ -333,6 +468,7 @@ document.addEventListener('DOMContentLoaded', function () {
           setTimeout(function () {
             completedFilename.textContent = file.name;
             completedSize.textContent = totalFormatted + ' of ' + totalFormatted;
+            completedRegion.setAttribute('aria-label', 'Upload completed: ' + file.name);
             zone.dataset.state = 'completed';
           }, 300);
         }

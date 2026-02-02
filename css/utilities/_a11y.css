@@ -1,4 +1,40 @@
 /* ==========================================================================
+   Skip Link
+   ========================================================================== */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-orange-500);
+  color: var(--color-white);
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--input-radius);
+  z-index: 1000;
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: var(--space-8);
+}
+
+/* ==========================================================================
+   Screen Reader Only
+   ========================================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
    Reduced Motion
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {

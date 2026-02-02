@@ -143,6 +143,16 @@
   background: var(--color-border-light);
 }
 
+.file-upload__remove:focus-visible {
+  outline: 2px solid var(--color-orange-500);
+  outline-offset: 2px;
+}
+
+.file-upload__dropzone:focus-within {
+  border-color: var(--color-orange-500);
+  box-shadow: 0 0 0 2px rgba(255, 96, 2, 0.2);
+}
+
 .file-upload__completed-meta {
   display: flex;
   align-items: center;

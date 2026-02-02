@@ -6,12 +6,16 @@
     <meta name="description" content="Register as a candidate at CESAR — Center for Advanced Studies and Systems of Recife." />
     <meta name="author" content="@sammarxz" />
     <meta name="theme-color" content="#FF6002" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Candidate Registration — CESAR" />
     <meta property="og:description" content="Register as a candidate at CESAR — Center for Advanced Studies and Systems of Recife." />
     <meta property="og:image" content="./img/cover.png" />
+    <meta property="og:url" content="https://cesar.org.br/register" />
+    <meta property="og:site_name" content="CESAR" />
+    <meta property="og:locale" content="pt_BR" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -21,13 +25,25 @@
 
     <title>Candidate Registration — CESAR</title>
 
+    <link rel="canonical" href="https://cesar.org.br/register" />
     <link rel="icon" href="./favicon.ico" />
     <link rel="stylesheet" href="./css/main.css" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "CESAR",
+      "url": "https://cesar.org.br"
+    }
+    </script>
   </head>
   <body>
+    <a href="#registration-form" class="skip-link">Skip to main content</a>
     <div class="page">
       <!-- ====== Navigation ====== -->
-      <nav class="nav">
+      <nav class="nav" aria-label="Main">
         <div class="nav__left">
           <a href="#" class="nav__logo" aria-label="CESAR Home">
             <img src="./img/Logo.svg" alt="CESAR" width="103" height="62" />
@@ -48,7 +64,7 @@
         </div>
 
         <div class="nav__right">
-          <button type="button" class="nav__bell u-flex-center" aria-label="Notifications">
+          <button type="button" class="nav__bell u-flex-center" aria-label="Notifications, 2 unread">
             <img
               src="./img/bell.svg"
               width="20"
@@ -56,7 +72,7 @@
               alt=""
               aria-hidden="true"
             />
-            <span class="nav__bell-badge u-flex-center">2</span>
+            <span class="nav__bell-badge u-flex-center" aria-hidden="true">2</span>
           </button>
 
           <button type="button" class="nav__user" aria-label="User menu">
@@ -88,7 +104,7 @@
       </nav>
 
       <!-- ====== Main Content ====== -->
-      <main class="main">
+      <main class="main" aria-label="Registration form">
         <div class="main__header">
           <h1 class="main__title">Candidate Registration</h1>
           <p class="main__subtitle">
@@ -106,10 +122,14 @@
               class="form-field__input"
               placeholder="First Name"
               required
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="first-name-error"
             />
             <label for="first-name" class="form-field__label"
               >First Name*</label
             >
+            <span id="first-name-error" class="sr-only" role="alert"></span>
             <button
               type="button"
               class="form-field__clear"
@@ -119,7 +139,7 @@
                 src="./img/close.svg"
                 width="16"
                 height="16"
-                alt="Close Icon"
+                alt=""
                 aria-hidden="true"
               />
             </button>
@@ -134,8 +154,12 @@
               class="form-field__input"
               placeholder="Last Name"
               required
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="last-name-error"
             />
             <label for="last-name" class="form-field__label">Last Name*</label>
+            <span id="last-name-error" class="sr-only" role="alert"></span>
             <button
               type="button"
               class="form-field__clear"
@@ -145,7 +169,7 @@
                 src="./img/close.svg"
                 width="16"
                 height="16"
-                alt="Close Icon"
+                alt=""
                 aria-hidden="true"
               />
             </button>
@@ -160,6 +184,7 @@
                 id="phone-trigger"
                 aria-haspopup="listbox"
                 aria-expanded="false"
+                aria-controls="phone-dropdown"
               >
                 <span class="phone-select__flag" id="phone-flag">🇧🇷</span>
                 <span class="phone-select__code" id="phone-code">BR</span>
@@ -168,7 +193,7 @@
                   src="./img/phone-chevron-down.svg"
                   width="12"
                   height="12"
-                  alt="Phone Chevron Down Icon"
+                  alt=""
                   aria-hidden="true"
                 />
               </button>
@@ -200,7 +225,7 @@
                 src="./img/close.svg"
                 width="16"
                 height="16"
-                alt="Close Icon"
+                alt=""
                 aria-hidden="true"
               />
             </button>
@@ -215,8 +240,12 @@
               class="form-field__input"
               placeholder="Email"
               required
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="email-error"
             />
             <label for="email" class="form-field__label">Email*</label>
+            <span id="email-error" class="sr-only" role="alert"></span>
             <button
               type="button"
               class="form-field__clear"
@@ -226,7 +255,7 @@
                 src="./img/close.svg"
                 width="16"
                 height="16"
-                alt="Close Icon"
+                alt=""
                 aria-hidden="true"
               />
             </button>
@@ -251,7 +280,7 @@
                 src="./img/close.svg"
                 width="16"
                 height="16"
-                alt="Close Icon"
+                alt=""
                 aria-hidden="true"
               />
             </button>
@@ -268,7 +297,7 @@
               id="file-upload"
               name="file-upload"
               class="file-upload__input"
-              accept=".jpeg,.jpg,.png,.pdf,.mp4"
+              accept=".pdf,.doc,.docx,.odt"
             />
 
             <!-- State: idle (default dropzone) -->
@@ -278,7 +307,7 @@
                   src="./img/upload.svg"
                   width="32"
                   height="32"
-                  alt="Upload Icon"
+                  alt=""
                   aria-hidden="true"
                 />
               </span>
@@ -298,7 +327,7 @@
                   src="./img/upload.svg"
                   width="32"
                   height="32"
-                  alt="Upload Icon"
+                  alt=""
                   aria-hidden="true"
                 />
               </span>
@@ -313,13 +342,14 @@
               class="file-upload__progress"
               role="region"
               aria-label="File upload progress"
+              aria-live="polite"
             >
               <span class="file-upload__file-icon u-flex-center u-no-shrink" aria-hidden="true">
                 <img
                   src="./img/file-pdf.svg"
                   width="40"
                   height="48"
-                  alt="File PDF Icon"
+                  alt=""
                   aria-hidden="true"
                 />
               </span>
@@ -364,6 +394,7 @@
               class="file-upload__completed"
               role="region"
               aria-label="File upload completed"
+              aria-live="polite"
             >
               <span class="file-upload__file-icon u-flex-center u-no-shrink" aria-hidden="true">
                 <img
@@ -384,7 +415,7 @@
                       src="./img/check-circle.svg"
                       width="16"
                       height="16"
-                      alt="Check Circle Icon Completed"
+                      alt=""
                       aria-hidden="true"
                     />
                   </span>
@@ -399,7 +430,7 @@
                   src="./img/close.svg"
                   width="16"
                   height="16"
-                  alt="Close Icon"
+                  alt=""
                   aria-hidden="true"
                 />
               </button>
@@ -419,7 +450,7 @@
       </main>
 
       <!-- ====== Footer ====== -->
-      <footer class="footer">
+      <footer class="footer" role="contentinfo" aria-label="Site footer">
         <p class="footer__copyright">&copy; 2024 CESAR</p>
         <div class="footer__contact">
           <a href="mailto:contato@cesar.org.br" class="footer__link"
