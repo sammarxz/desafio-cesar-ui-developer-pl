@@ -65,6 +65,8 @@
   right: var(--input-h-pad);
   transform: translateY(-50%);
   display: none;
+  align-items: center;
+  justify-content: center;
   width: 28px;
   height: 28px;
   border-radius: var(--radius-full);
