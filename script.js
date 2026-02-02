@@ -389,12 +389,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var fileUpload = (function () {
     var ALLOWED_TYPES = [
-      'image/jpeg',
-      'image/png',
       'application/pdf',
-      'video/mp4'
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.oasis.opendocument.text'
     ];
-    var MAX_SIZE = 50 * 1024 * 1024;
+    var MAX_SIZE = 5 * 1024 * 1024;
 
     var zone      = document.getElementById('file-upload-zone');
     var fileInput = document.getElementById('file-upload');
@@ -435,12 +435,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function handleFile(file) {
       if (ALLOWED_TYPES.indexOf(file.type) === -1) {
-        alert('File type not allowed. Please select a JPEG, PNG, PDF, or MP4 file.');
+        alert('File type not allowed. Please select a PDF, DOC, or ODT file.');
         reset();
         return;
       }
       if (file.size > MAX_SIZE) {
-        alert('File is too large. Maximum size is 50 MB.');
+        alert('File is too large. Maximum size is 5 MB.');
         reset();
         return;
       }
