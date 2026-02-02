@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Candidate Registration — CESAR</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="page">
+      <!-- ====== Navigation ====== -->
+      <nav class="nav">
+        <div class="nav__left">
+          <a href="#" class="nav__logo" aria-label="CESAR Home">
+            <img src="img/Logo.svg" alt="CESAR" width="103" height="62" />
+          </a>
+
+          <ul class="nav__links">
+            <li><a href="#" class="nav__link">Home</a></li>
+            <li><a href="#" class="nav__link">About</a></li>
+            <li>
+              <a
+                href="#"
+                class="nav__link nav__link--active"
+                aria-current="page"
+                >Register</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav__right">
+          <button type="button" class="nav__bell" aria-label="Notifications">
+            <img
+              src="img/bell.svg"
+              width="20"
+              height="20"
+              alt=""
+              aria-hidden="true"
+            />
+            <span class="nav__bell-badge">2</span>
+          </button>
+
+          <button type="button" class="nav__user" aria-label="User menu">
+            <span class="nav__avatar" aria-hidden="true">Ju</span>
+            <span class="nav__username">Juliana</span>
+            <span class="nav__chevron" aria-hidden="true">
+              <img
+                src="img/chevron-down.svg"
+                width="16"
+                height="16"
+                alt=""
+                aria-hidden="true"
+              />
+            </span>
+          </button>
+        </div>
+
+        <button
+          type="button"
+          class="nav__hamburger btn btn--secondary btn--icon btn--medium"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="nav__hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </nav>
+
+      <!-- ====== Main Content ====== -->
+      <main class="main">
+        <div class="main__header">
+          <h1 class="main__title">Candidate Registration</h1>
+          <p class="main__subtitle">
+            Please fill out the form bellow to register your profile.
+          </p>
+        </div>
+
+        <form class="form-grid" id="registration-form" novalidate>
+          <!-- First Name -->
+          <div class="form-field form-grid__field--first-name">
+            <input
+              type="text"
+              id="first-name"
+              name="first-name"
+              class="form-field__input"
+              placeholder="First Name"
+              required
+            />
+            <label for="first-name" class="form-field__label"
+              >First Name*</label
+            >
+            <button
+              type="button"
+              class="form-field__clear"
+              aria-label="Clear first name"
+            >
+              <img
+                src="img/close.svg"
+                width="16"
+                height="16"
+                alt="Close Icon"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-field form-grid__field--last-name">
+            <input
+              type="text"
+              id="last-name"
+              name="last-name"
+              class="form-field__input"
+              placeholder="Last Name"
+              required
+            />
+            <label for="last-name" class="form-field__label">Last Name*</label>
+            <button
+              type="button"
+              class="form-field__clear"
+              aria-label="Clear last name"
+            >
+              <img
+                src="img/close.svg"
+                width="16"
+                height="16"
+                alt="Close Icon"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-field form-field--phone form-grid__field--phone">
+            <div class="phone-select" id="phone-select">
+              <button
+                type="button"
+                class="phone-select__trigger"
+                id="phone-trigger"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+              >
+                <span class="phone-select__flag" id="phone-flag">🇧🇷</span>
+                <span class="phone-select__code" id="phone-code">BR</span>
+                <img
+                  class="phone-select__chevron"
+                  src="img/phone-chevron-down.svg"
+                  width="12"
+                  height="12"
+                  alt="Phone Chevron Down Icon"
+                  aria-hidden="true"
+                />
+              </button>
+              <ul
+                class="phone-select__dropdown"
+                id="phone-dropdown"
+                role="listbox"
+                aria-label="Select country"
+              ></ul>
+            </div>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="form-field__input form-field__input--phone"
+              placeholder="Phone"
+            />
+            <label
+              for="phone"
+              class="form-field__label form-field__label--phone"
+              >Phone</label
+            >
+            <button
+              type="button"
+              class="form-field__clear"
+              aria-label="Clear phone"
+            >
+              <img
+                src="img/close.svg"
+                width="16"
+                height="16"
+                alt="Close Icon"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+
+          <!-- Email -->
+          <div class="form-field form-grid__field--email">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-field__input"
+              placeholder="Email"
+              required
+            />
+            <label for="email" class="form-field__label">Email*</label>
+            <button
+              type="button"
+              class="form-field__clear"
+              aria-label="Clear email"
+            >
+              <img
+                src="img/close.svg"
+                width="16"
+                height="16"
+                alt="Close Icon"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+
+          <!-- Address -->
+          <div class="form-field form-grid__field--address">
+            <input
+              type="text"
+              id="address"
+              name="address"
+              class="form-field__input"
+              placeholder=" "
+            />
+            <label for="address" class="form-field__label">Address</label>
+            <button
+              type="button"
+              class="form-field__clear"
+              aria-label="Clear address"
+            >
+              <img
+                src="img/close.svg"
+                width="16"
+                height="16"
+                alt="Close Icon"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+
+          <!-- File Upload -->
+          <div
+            class="file-upload form-grid__field--upload"
+            id="file-upload-zone"
+            data-state="idle"
+          >
+            <input
+              type="file"
+              id="file-upload"
+              name="file-upload"
+              class="file-upload__input"
+              accept=".jpeg,.jpg,.png,.pdf,.mp4"
+            />
+
+            <!-- State: idle (default dropzone) -->
+            <label for="file-upload" class="file-upload__dropzone">
+              <span class="file-upload__icon" aria-hidden="true">
+                <img
+                  src="img/upload.svg"
+                  width="32"
+                  height="32"
+                  alt="Upload Icon"
+                  aria-hidden="true"
+                />
+              </span>
+              <span class="file-upload__text"
+                >Choose a file or drag &amp; drop it here</span
+              >
+              <span class="file-upload__hint"
+                >JPEG, PNG, PDF, and MP4 formats, up to 50MB</span
+              >
+              <span class="file-upload__browse">Browse File</span>
+            </label>
+
+            <!-- State: dragover -->
+            <div class="file-upload__dragover">
+              <span class="file-upload__icon" aria-hidden="true">
+                <img
+                  src="img/upload.svg"
+                  width="32"
+                  height="32"
+                  alt="Upload Icon"
+                  aria-hidden="true"
+                />
+              </span>
+              <span class="file-upload__text">Drop it here</span>
+              <span class="file-upload__hint"
+                >JPEG, PNG, PDF, and MP4 formats, up to 50MB</span
+              >
+            </div>
+
+            <!-- State: uploading (progress) -->
+            <div
+              class="file-upload__progress"
+              role="region"
+              aria-label="File upload progress"
+            >
+              <span class="file-upload__file-icon" aria-hidden="true">
+                <img
+                  src="img/file-pdf.svg"
+                  width="40"
+                  height="48"
+                  alt="File PDF Icon"
+                  aria-hidden="true"
+                />
+              </span>
+              <div class="file-upload__file-info">
+                <div class="file-upload__filename"></div>
+                <div class="file-upload__filesize"></div>
+                <div
+                  class="file-upload__bar"
+                  role="progressbar"
+                  aria-valuenow="0"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-label="Upload progress"
+                >
+                  <div class="file-upload__bar-fill"></div>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="file-upload__remove"
+                aria-label="Cancel upload"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- State: completed -->
+            <div
+              class="file-upload__completed"
+              role="region"
+              aria-label="File upload completed"
+            >
+              <span class="file-upload__file-icon" aria-hidden="true">
+                <img
+                  src="img/file-pdf.svg"
+                  width="40"
+                  height="48"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </span>
+              <div class="file-upload__completed-info">
+                <div class="file-upload__filename"></div>
+                <div class="file-upload__completed-meta">
+                  <span class="file-upload__completed-size"></span>
+                  <span class="file-upload__completed-status">
+                    • Completed
+                    <img
+                      src="img/check-circle.svg"
+                      width="16"
+                      height="16"
+                      alt="Check Circle Icon Completed"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="file-upload__remove"
+                aria-label="Remove file"
+              >
+                <img
+                  src="img/close.svg"
+                  width="16"
+                  height="16"
+                  alt="Close Icon"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions form-grid__field--actions">
+            <button type="button" class="btn btn--secondary" id="btn-clear">
+              Clear
+            </button>
+            <button type="submit" class="btn btn--primary" id="btn-send">
+              Send
+            </button>
+          </div>
+        </form>
+      </main>
+
+      <!-- ====== Footer ====== -->
+      <footer class="footer">
+        <p class="footer__copyright">&copy; 2024 CESAR</p>
+        <div class="footer__contact">
+          <a href="mailto:contato@cesar.org.br" class="footer__link"
+            >contato@cesar.org.br</a
+          >
+          <a href="tel:+558134254700" class="footer__link">+55 81 3425.4700</a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
