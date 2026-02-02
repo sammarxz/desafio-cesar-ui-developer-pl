@@ -52,17 +52,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  function resetForm() {
+    form.reset();
+    form.querySelectorAll('.form-field__input').forEach(function (input) {
+      input.classList.remove('touched');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    phoneSelector.reset();
+    fileUpload.reset();
+  }
+
   // Form "Clear" button
   if (btnClear) {
-    btnClear.addEventListener('click', function () {
-      form.reset();
-      form.querySelectorAll('.form-field__input').forEach(function (input) {
-        input.classList.remove('touched');
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-      });
-      phoneSelector.reset();
-      fileUpload.reset();
-    });
+    btnClear.addEventListener('click', resetForm);
   }
 
   // Form "Send" button
@@ -92,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
       obj.phone_full = country.dial + ' ' + phoneSelector.getDigits();
 
       console.log('Form submitted:', obj);
+      resetForm();
     });
   }
 
