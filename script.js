@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         input.dispatchEvent(new Event('input', { bubbles: true }));
       });
       phoneSelector.reset();
-      // TODO: reset file upload
+      fileUpload.reset();
     });
   }
 
@@ -249,5 +249,147 @@ document.addEventListener('DOMContentLoaded', function () {
         setOpen(false);
       }
     };
+  })();
+
+  // ══════════════════════════════════════════════════════════════════════════
+  //  File Upload Component (encapsulated)
+  // ══════════════════════════════════════════════════════════════════════════
+
+  var fileUpload = (function () {
+    var ALLOWED_TYPES = [
+      'image/jpeg',
+      'image/png',
+      'application/pdf',
+      'video/mp4'
+    ];
+    var MAX_SIZE = 50 * 1024 * 1024;
+
+    var zone      = document.getElementById('file-upload-zone');
+    var fileInput = document.getElementById('file-upload');
+    var dragCounter = 0;
+    var uploadTimer = null;
+
+    var progressFilename = zone.querySelector('.file-upload__progress .file-upload__filename');
+    var progressFilesize = zone.querySelector('.file-upload__progress .file-upload__filesize');
+    var progressBarFill  = zone.querySelector('.file-upload__bar-fill');
+    var progressBar      = zone.querySelector('.file-upload__bar');
+
+    var completedFilename = zone.querySelector('.file-upload__completed .file-upload__filename');
+    var completedSize     = zone.querySelector('.file-upload__completed-size');
+
+    // ── Helpers ──
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      var kb = bytes / 1024;
+      if (kb < 1024) return Math.round(kb) + ' KB';
+      return (kb / 1024).toFixed(1) + ' MB';
+    }
+
+    function reset() {
+      clearInterval(uploadTimer);
+      uploadTimer = null;
+      fileInput.value = '';
+      zone.dataset.state = 'idle';
+      dragCounter = 0;
+    }
+
+    // ── File handling ──
+
+    function handleFile(file) {
+      if (ALLOWED_TYPES.indexOf(file.type) === -1) {
+        alert('File type not allowed. Please select a JPEG, PNG, PDF, or MP4 file.');
+        reset();
+        return;
+      }
+      if (file.size > MAX_SIZE) {
+        alert('File is too large. Maximum size is 50 MB.');
+        reset();
+        return;
+      }
+      startUpload(file);
+    }
+
+    function startUpload(file) {
+      var totalSize = file.size;
+      var totalFormatted = formatSize(totalSize);
+
+      progressFilename.textContent = file.name;
+      progressBarFill.style.width = '0%';
+      zone.dataset.state = 'uploading';
+
+      var progress = 0;
+
+      clearInterval(uploadTimer);
+      uploadTimer = setInterval(function () {
+        progress += 2;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(uploadTimer);
+          uploadTimer = null;
+          setTimeout(function () {
+            completedFilename.textContent = file.name;
+            completedSize.textContent = totalFormatted + ' of ' + totalFormatted;
+            zone.dataset.state = 'completed';
+          }, 300);
+        }
+
+        var loaded = Math.round((progress / 100) * totalSize);
+        progressFilesize.textContent = formatSize(loaded) + ' of ' + totalFormatted;
+        progressBarFill.style.width = progress + '%';
+        progressBar.setAttribute('aria-valuenow', progress);
+      }, 60);
+    }
+
+    // ── Event listeners ──
+
+    zone.querySelectorAll('.file-upload__remove').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        reset();
+      });
+    });
+
+    var dragoverArea = zone.querySelector('.file-upload__dragover');
+    dragoverArea.addEventListener('click', function () {
+      fileInput.click();
+    });
+
+    zone.addEventListener('dragenter', function (e) {
+      e.preventDefault();
+      dragCounter++;
+      if (zone.dataset.state === 'idle') zone.dataset.state = 'dragover';
+    });
+
+    zone.addEventListener('dragover', function (e) {
+      e.preventDefault();
+    });
+
+    zone.addEventListener('dragleave', function (e) {
+      e.preventDefault();
+      dragCounter--;
+      if (dragCounter <= 0) {
+        dragCounter = 0;
+        if (zone.dataset.state === 'dragover') zone.dataset.state = 'idle';
+      }
+    });
+
+    zone.addEventListener('drop', function (e) {
+      e.preventDefault();
+      dragCounter = 0;
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleFile(e.dataTransfer.files[0]);
+      } else {
+        zone.dataset.state = 'idle';
+      }
+    });
+
+    fileInput.addEventListener('change', function () {
+      if (this.files && this.files.length > 0) handleFile(this.files[0]);
+    });
+
+    // ── Public API ──
+
+    return { reset: reset };
   })();
 });
