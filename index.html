@@ -30,7 +30,7 @@
         </div>
 
         <div class="nav__right">
-          <button type="button" class="nav__bell" aria-label="Notifications">
+          <button type="button" class="nav__bell u-flex-center" aria-label="Notifications">
             <img
               src="img/bell.svg"
               width="20"
@@ -38,11 +38,11 @@
               alt=""
               aria-hidden="true"
             />
-            <span class="nav__bell-badge">2</span>
+            <span class="nav__bell-badge u-flex-center">2</span>
           </button>
 
           <button type="button" class="nav__user" aria-label="User menu">
-            <span class="nav__avatar" aria-hidden="true">Ju</span>
+            <span class="nav__avatar u-flex-center" aria-hidden="true">Ju</span>
             <span class="nav__username">Juliana</span>
             <span class="nav__chevron" aria-hidden="true">
               <img
@@ -58,7 +58,7 @@
 
         <button
           type="button"
-          class="nav__hamburger btn btn--secondary btn--icon btn--medium"
+          class="nav__hamburger btn btn--secondary btn--icon btn--medium u-no-shrink"
           aria-label="Toggle navigation menu"
         >
           <span class="nav__hamburger-icon">
@@ -94,7 +94,7 @@
             >
             <button
               type="button"
-              class="form-field__clear"
+              class="form-field__clear u-flex-center"
               aria-label="Clear first name"
             >
               <img
@@ -120,7 +120,7 @@
             <label for="last-name" class="form-field__label">Last Name*</label>
             <button
               type="button"
-              class="form-field__clear"
+              class="form-field__clear u-flex-center"
               aria-label="Clear last name"
             >
               <img
@@ -135,7 +135,7 @@
 
           <!-- Phone -->
           <div class="form-field form-field--phone form-grid__field--phone">
-            <div class="phone-select" id="phone-select">
+            <div class="phone-select u-no-shrink" id="phone-select">
               <button
                 type="button"
                 class="phone-select__trigger"
@@ -146,7 +146,7 @@
                 <span class="phone-select__flag" id="phone-flag">🇧🇷</span>
                 <span class="phone-select__code" id="phone-code">BR</span>
                 <img
-                  class="phone-select__chevron"
+                  class="phone-select__chevron u-no-shrink"
                   src="img/phone-chevron-down.svg"
                   width="12"
                   height="12"
@@ -175,7 +175,7 @@
             >
             <button
               type="button"
-              class="form-field__clear"
+              class="form-field__clear u-flex-center"
               aria-label="Clear phone"
             >
               <img
@@ -201,7 +201,7 @@
             <label for="email" class="form-field__label">Email*</label>
             <button
               type="button"
-              class="form-field__clear"
+              class="form-field__clear u-flex-center"
               aria-label="Clear email"
             >
               <img
@@ -226,7 +226,7 @@
             <label for="address" class="form-field__label">Address</label>
             <button
               type="button"
-              class="form-field__clear"
+              class="form-field__clear u-flex-center"
               aria-label="Clear address"
             >
               <img
@@ -267,7 +267,7 @@
               <span class="file-upload__text"
                 >Choose a file or drag &amp; drop it here</span
               >
-              <span class="file-upload__hint"
+              <span class="file-upload__hint u-text-muted"
                 >JPEG, PNG, PDF, and MP4 formats, up to 50MB</span
               >
               <span class="file-upload__browse">Browse File</span>
@@ -285,7 +285,7 @@
                 />
               </span>
               <span class="file-upload__text">Drop it here</span>
-              <span class="file-upload__hint"
+              <span class="file-upload__hint u-text-muted"
                 >JPEG, PNG, PDF, and MP4 formats, up to 50MB</span
               >
             </div>
@@ -296,7 +296,7 @@
               role="region"
               aria-label="File upload progress"
             >
-              <span class="file-upload__file-icon" aria-hidden="true">
+              <span class="file-upload__file-icon u-flex-center u-no-shrink" aria-hidden="true">
                 <img
                   src="img/file-pdf.svg"
                   width="40"
@@ -305,9 +305,9 @@
                   aria-hidden="true"
                 />
               </span>
-              <div class="file-upload__file-info">
-                <div class="file-upload__filename"></div>
-                <div class="file-upload__filesize"></div>
+              <div class="file-upload__file-info u-flex-fill">
+                <div class="file-upload__filename u-truncate"></div>
+                <div class="file-upload__filesize u-text-muted"></div>
                 <div
                   class="file-upload__bar"
                   role="progressbar"
@@ -321,7 +321,7 @@
               </div>
               <button
                 type="button"
-                class="file-upload__remove"
+                class="file-upload__remove u-flex-center u-no-shrink"
                 aria-label="Cancel upload"
               >
                 <svg
@@ -347,7 +347,7 @@
               role="region"
               aria-label="File upload completed"
             >
-              <span class="file-upload__file-icon" aria-hidden="true">
+              <span class="file-upload__file-icon u-flex-center u-no-shrink" aria-hidden="true">
                 <img
                   src="img/file-pdf.svg"
                   width="40"
@@ -356,10 +356,10 @@
                   aria-hidden="true"
                 />
               </span>
-              <div class="file-upload__completed-info">
-                <div class="file-upload__filename"></div>
+              <div class="file-upload__completed-info u-flex-fill">
+                <div class="file-upload__filename u-truncate"></div>
                 <div class="file-upload__completed-meta">
-                  <span class="file-upload__completed-size"></span>
+                  <span class="file-upload__completed-size u-text-muted"></span>
                   <span class="file-upload__completed-status">
                     • Completed
                     <img
@@ -374,7 +374,7 @@
               </div>
               <button
                 type="button"
-                class="file-upload__remove"
+                class="file-upload__remove u-flex-center u-no-shrink"
                 aria-label="Remove file"
               >
                 <img

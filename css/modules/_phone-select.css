@@ -4,7 +4,6 @@
 .phone-select {
   position: relative;
   z-index: 10;
-  flex-shrink: 0;
 }
 
 .phone-select__trigger {
@@ -39,7 +38,6 @@
 .phone-select__chevron {
   color: var(--color-text-muted);
   transition: transform var(--transition-fast);
-  flex-shrink: 0;
 }
 
 .phone-select[data-open="true"] .phone-select__chevron {
@@ -93,6 +91,4 @@
 
 .phone-select__option-code {
   margin-left: auto;
-  color: var(--color-text-muted);
-  font-size: var(--text-caption);
 }

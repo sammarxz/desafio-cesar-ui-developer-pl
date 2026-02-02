@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+/* ── Flex ── */
+.u-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.u-flex-fill {
+  flex: 1;
+  min-width: 0;
+}
+
+.u-no-shrink {
+  flex-shrink: 0;
+}
+
+/* ── Text ── */
+.u-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.u-text-muted {
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+}
