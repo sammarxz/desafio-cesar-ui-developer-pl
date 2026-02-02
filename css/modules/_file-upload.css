@@ -1,0 +1,190 @@
+/* ==========================================================================
+   File Upload (state-driven via data-state attribute)
+   ========================================================================== */
+.file-upload {
+  position: relative;
+}
+
+.file-upload__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.file-upload__dropzone,
+.file-upload__dragover,
+.file-upload__progress,
+.file-upload__completed {
+  display: none;
+}
+
+.file-upload[data-state="idle"] .file-upload__dropzone {
+  display: flex;
+}
+
+.file-upload[data-state="dragover"] .file-upload__dragover {
+  display: flex;
+}
+
+.file-upload[data-state="uploading"] .file-upload__progress {
+  display: flex;
+}
+
+.file-upload[data-state="completed"] .file-upload__completed {
+  display: flex;
+}
+
+.file-upload__dropzone,
+.file-upload__dragover {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-24);
+  padding: 48px var(--upload-padding);
+  border: 1px solid var(--color-border);
+  border-radius: var(--upload-radius);
+  background: var(--color-white);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.file-upload__dropzone:hover {
+  border-color: var(--color-gray-500);
+}
+
+.file-upload__dragover {
+  border-style: dashed;
+  border-color: var(--color-orange-500);
+  background: var(--color-orange-light);
+}
+
+.file-upload__icon {
+  color: var(--color-orange-500);
+}
+
+.file-upload__text {
+  font-size: 18px;
+  font-weight: var(--weight-medium);
+  color: var(--color-text-dark);
+  text-align: center;
+}
+
+.file-upload__hint {
+  text-align: center;
+  margin-top: -16px;
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+}
+
+.file-upload__browse {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-8) var(--input-h-pad);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-medium);
+  border: 1px solid var(--color-border);
+  border-radius: var(--btn-radius);
+  pointer-events: none;
+}
+
+.file-upload__progress,
+.file-upload__completed {
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-16) var(--upload-padding);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--upload-radius);
+}
+
+.file-upload__file-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-upload__file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-upload__filename {
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-dark);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-upload__filesize {
+  margin-top: var(--space-2);
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+}
+
+.file-upload__bar {
+  width: 100%;
+  height: var(--upload-stroke);
+  background: var(--color-border-light);
+  border-radius: var(--radius-full);
+  margin-top: var(--space-8);
+  overflow: hidden;
+}
+
+.file-upload__bar-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--color-orange-500);
+  border-radius: var(--radius-full);
+  transition: width 150ms linear;
+}
+
+.file-upload__remove {
+  width: 28px;
+  height: 28px;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-upload__remove:hover {
+  background: var(--color-border-light);
+}
+
+.file-upload__completed-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-upload__completed-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-top: var(--space-2);
+}
+
+.file-upload__completed-size {
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+}
+
+.file-upload__completed-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-medium);
+  color: var(--color-green);
+}
