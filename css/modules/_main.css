@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Main / Registration
+   ========================================================================== */
+.main {
+  padding: 0;
+}
+
+.main__header {
+  text-align: center;
+  margin-bottom: var(--space-32);
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding: 0 calc(var(--space-32) * 2);
+  }
+
+  .main__header {
+    text-align: left;
+    margin-bottom: calc(var(--space-32) * 2);
+  }
+
+  .main__title {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+  }
+
+  .main__subtitle {
+    font-size: var(--text-h6);
+  }
+}
+
+.main__title {
+  font-size: var(--text-h4);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-dark);
+  margin-bottom: var(--space-8);
+}
+
+.main__subtitle {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+}
