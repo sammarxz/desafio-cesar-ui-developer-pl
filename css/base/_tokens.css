@@ -1,0 +1,142 @@
+/* ==========================================================================
+   Design Tokens
+   ========================================================================== */
+:root {
+  /* ── Figma Color Palette ── */
+  --color-orange-100: #FFF0D6;
+  --color-orange-200: #FEB58A;
+  --color-orange-300: #FE995C;
+  --color-orange-400: #FE7C2F;
+  --color-orange-500: #FF6002;
+  --color-orange-600: #D64F00;
+  --color-orange-700: #AD4000;
+  --color-orange-800: #843100;
+  --color-orange-900: #5B2200;
+
+  --color-blue-100: #E7DFFF;
+  --color-blue-200: #837BF0;
+  --color-blue-300: #5B53C8;
+  --color-blue-400: #332BA0;
+  --color-blue-500: #0B0378;
+  --color-blue-600: #080269;
+  --color-blue-700: #07025E;
+  --color-blue-800: #04014B;
+  --color-blue-900: #02013A;
+
+  --color-yellow-100: #FEF9EA;
+  --color-yellow-200: #FEEEBC;
+  --color-yellow-300: #FEE38E;
+  --color-yellow-400: #FED860;
+  --color-yellow-500: #FFCE33;
+  --color-yellow-600: #DDAF20;
+  --color-yellow-700: #BB9211;
+  --color-yellow-800: #997506;
+  --color-yellow-900: #775A00;
+
+  --color-purple-100: #FFD1DF;
+  --color-purple-200: #FF9FBF;
+  --color-purple-300: #FF63A2;
+  --color-purple-400: #F40088;
+  --color-purple-500: #BC0067;
+  --color-purple-600: #9A0054;
+  --color-purple-700: #790040;
+  --color-purple-800: #59002D;
+  --color-purple-900: #3E001E;
+
+  --color-gray-100: #FAFAFA;
+  --color-gray-200: #F5F5F5;
+  --color-gray-300: #D9D9D9;
+  --color-gray-400: #757575;
+  --color-gray-500: #4B4B4B;
+  --color-gray-600: #3E3E3E;
+  --color-gray-700: #303030;
+  --color-gray-800: #242424;
+  --color-gray-900: #181818;
+
+  --color-white: #FFFFFF;
+
+  /* ── Semantic Aliases ── */
+  --color-orange-hover: var(--color-orange-600);
+  --color-orange-light: var(--color-orange-100);
+  --color-orange-light-hover: #ffe4b8;
+  --color-text-dark: var(--color-gray-900);
+  --color-text-medium: var(--color-gray-500);
+  --color-text-muted: var(--color-gray-400);
+  --color-border: var(--color-gray-300);
+  --color-border-light: var(--color-gray-200);
+  --color-bg: var(--color-white);
+  --color-avatar-bg: var(--color-purple-200);
+  --color-avatar-text: var(--color-purple-600);
+  --color-send-text: var(--color-yellow-100);
+
+  --color-red: #E53935;
+  --color-green: #43A047;
+
+  /* ── Spacing Scale ── */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --radius-full: 999px;
+
+  /* ── Typography Scale ── */
+  --text-h1: 48px;
+  --text-h2: 40px;
+  --text-h3: 33px;
+  --text-h4: 28px;
+  --text-h5: 23px;
+  --text-h6: 19px;
+  --text-base: 16px;
+  --text-caption: 13px;
+  --text-tiny: 11px;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+  --leading: 1.5;
+
+  /* ── Component Tokens ── */
+  --avatar-radius: var(--radius-full);
+  --avatar-size: 40px;
+  --avatar-padding: var(--space-8);
+
+  --btn-radius: 12px;
+  --btn-lg-h: 62px;
+  --btn-lg-pad: var(--space-24);
+  --btn-lg-font: var(--text-base);
+  --btn-md-h: 46px;
+  --btn-md-pad: var(--space-16);
+  --btn-md-font: var(--text-base);
+  --btn-sm-h: 32px;
+  --btn-sm-pad: var(--space-12);
+  --btn-sm-font: 14px;
+  --btn-icon-h: var(--btn-lg-h);
+
+  --input-radius: 12px;
+  --input-h-pad: var(--space-16);
+  --input-v-pad: var(--space-8);
+  --input-hint-pad: var(--space-8);
+  --input-icon-size: 24px;
+
+  --nav-padding: var(--space-16);
+  --nav-radius: 12px;
+  --nav-items-pad: var(--space-12);
+
+  --upload-padding: var(--space-24);
+  --upload-radius: 12px;
+  --upload-stroke: 8px;
+
+  --notification-size: 40px;
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+}
