@@ -1,19 +1,19 @@
-document.addEventListener('DOMContentLoaded', function () {
-  var form = document.getElementById('registration-form');
-  var btnClear = document.getElementById('btn-clear');
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('registration-form');
+  const btnClear = document.getElementById('btn-clear');
 
   // ══════════════════════════════════════════════════════════════════════════
   //  Nav — hide on scroll down, show on scroll up (rAF-throttled)
   // ══════════════════════════════════════════════════════════════════════════
 
-  var nav = document.querySelector('.nav');
-  var lastScrollY = window.scrollY;
-  var scrollTicking = false;
+  const nav = document.querySelector('.nav');
+  let lastScrollY = window.scrollY;
+  let scrollTicking = false;
 
-  window.addEventListener('scroll', function () {
+  window.addEventListener('scroll', () => {
     if (!scrollTicking) {
-      requestAnimationFrame(function () {
-        var currentScrollY = window.scrollY;
+      requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
 
         if (currentScrollY > lastScrollY && currentScrollY > 80) {
           nav.classList.add('nav--hidden');
@@ -34,14 +34,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── Aria-invalid helpers ──
 
-  var ERROR_MESSAGES = {
+  const ERROR_MESSAGES = {
     'first-name': 'First name is required',
     'last-name': 'Last name is required',
     'email': 'Please enter a valid email address'
   };
 
-  function updateAriaInvalid(input) {
-    var errorSpan = document.getElementById(input.id + '-error');
+  const updateAriaInvalid = (input) => {
+    const errorSpan = document.getElementById(`${input.id}-error`);
     if (!errorSpan) return;
 
     if (!input.validity.valid) {
@@ -51,34 +51,36 @@ document.addEventListener('DOMContentLoaded', function () {
       input.setAttribute('aria-invalid', 'false');
       errorSpan.textContent = '';
     }
-  }
+  };
 
   // Mark inputs as "touched" on blur for CSS validation + aria-invalid
-  form.querySelectorAll('.form-field__input').forEach(function (input) {
-    input.addEventListener('blur', function () {
-      this.classList.add('touched');
-      if (this.hasAttribute('aria-invalid')) {
-        updateAriaInvalid(this);
+  form.querySelectorAll('.form-field__input').forEach((input) => {
+    input.addEventListener('blur', (e) => {
+      const target = e.target;
+      target.classList.add('touched');
+      if (target.hasAttribute('aria-invalid')) {
+        updateAriaInvalid(target);
       }
     });
 
-    input.addEventListener('input', function () {
-      if (this.classList.contains('touched') && this.hasAttribute('aria-invalid')) {
-        updateAriaInvalid(this);
+    input.addEventListener('input', (e) => {
+      const target = e.target;
+      if (target.classList.contains('touched') && target.hasAttribute('aria-invalid')) {
+        updateAriaInvalid(target);
       }
     });
   });
 
   // Clear buttons (x) on text inputs
-  document.querySelectorAll('.form-field__clear').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var input = this.closest('.form-field').querySelector('.form-field__input');
+  document.querySelectorAll('.form-field__clear').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const input = e.currentTarget.closest('.form-field').querySelector('.form-field__input');
       if (input) {
         input.value = '';
         input.classList.remove('touched');
         if (input.hasAttribute('aria-invalid')) {
           input.setAttribute('aria-invalid', 'false');
-          var errorSpan = document.getElementById(input.id + '-error');
+          const errorSpan = document.getElementById(`${input.id}-error`);
           if (errorSpan) errorSpan.textContent = '';
         }
         input.focus();
@@ -87,20 +89,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  function resetForm() {
+  const resetForm = () => {
     form.reset();
-    form.querySelectorAll('.form-field__input').forEach(function (input) {
+    form.querySelectorAll('.form-field__input').forEach((input) => {
       input.classList.remove('touched');
       if (input.hasAttribute('aria-invalid')) {
         input.setAttribute('aria-invalid', 'false');
-        var errorSpan = document.getElementById(input.id + '-error');
+        const errorSpan = document.getElementById(`${input.id}-error`);
         if (errorSpan) errorSpan.textContent = '';
       }
       input.dispatchEvent(new Event('input', { bubbles: true }));
     });
     phoneSelector.reset();
     fileUpload.reset();
-  }
+  };
 
   // Form "Clear" button
   if (btnClear) {
@@ -109,30 +111,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Form "Send" button
   if (form) {
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      form.querySelectorAll('.form-field__input[required]').forEach(function (input) {
+      form.querySelectorAll('.form-field__input[required]').forEach((input) => {
         input.classList.add('touched');
         updateAriaInvalid(input);
       });
 
       if (!form.checkValidity()) {
-        var firstInvalid = form.querySelector('.form-field__input:invalid');
+        const firstInvalid = form.querySelector('.form-field__input:invalid');
         if (firstInvalid) firstInvalid.focus();
         return;
       }
 
-      var data = new FormData(form);
-      var obj = {};
-      data.forEach(function (value, key) {
+      const data = new FormData(form);
+      const obj = {};
+      data.forEach((value, key) => {
         obj[key] = value;
       });
 
-      var country = phoneSelector.getCountry();
+      const country = phoneSelector.getCountry();
       obj.phone_country = country.code;
       obj.phone_dial = country.dial;
-      obj.phone_full = country.dial + ' ' + phoneSelector.getDigits();
+      obj.phone_full = `${country.dial} ${phoneSelector.getDigits()}`;
 
       console.log('Form submitted:', obj);
       resetForm();
@@ -143,8 +145,8 @@ document.addEventListener('DOMContentLoaded', function () {
   //  Phone Country Selector + Mask (encapsulated)
   // ══════════════════════════════════════════════════════════════════════════
 
-  var phoneSelector = (function () {
-    var COUNTRIES = [
+  const phoneSelector = (() => {
+    const COUNTRIES = [
       { code: 'BR', flag: '\u{1F1E7}\u{1F1F7}', dial: '+55',  mask: '(##) #####-####' },
       { code: 'US', flag: '\u{1F1FA}\u{1F1F8}', dial: '+1',   mask: '(###) ###-####' },
       { code: 'PT', flag: '\u{1F1F5}\u{1F1F9}', dial: '+351', mask: '### ### ###' },
@@ -163,27 +165,26 @@ document.addEventListener('DOMContentLoaded', function () {
       { code: 'AU', flag: '\u{1F1E6}\u{1F1FA}', dial: '+61',  mask: '#### ### ###' },
     ];
 
-    var DEFAULT_INDEX = 0;
+    const DEFAULT_INDEX = 0;
 
-    var selectEl   = document.getElementById('phone-select');
-    var triggerEl  = document.getElementById('phone-trigger');
-    var dropdownEl = document.getElementById('phone-dropdown');
-    var flagEl     = document.getElementById('phone-flag');
-    var codeEl     = document.getElementById('phone-code');
-    var inputEl    = document.getElementById('phone');
+    const selectEl   = document.getElementById('phone-select');
+    const triggerEl  = document.getElementById('phone-trigger');
+    const dropdownEl = document.getElementById('phone-dropdown');
+    const flagEl     = document.getElementById('phone-flag');
+    const codeEl     = document.getElementById('phone-code');
+    const inputEl    = document.getElementById('phone');
 
-    var selected = COUNTRIES[DEFAULT_INDEX];
+    let selected = COUNTRIES[DEFAULT_INDEX];
+    let focusedIndex = -1;
 
     // ── Mask helpers ──
 
-    function stripDigits(str) {
-      return str.replace(/\D/g, '');
-    }
+    const stripDigits = (str) => str.replace(/\D/g, '');
 
-    function applyMask(digits, mask) {
-      var result = '';
-      var di = 0;
-      for (var i = 0; i < mask.length && di < digits.length; i++) {
+    const applyMask = (digits, mask) => {
+      let result = '';
+      let di = 0;
+      for (let i = 0; i < mask.length && di < digits.length; i++) {
         if (mask[i] === '#') {
           result += digits[di];
           di++;
@@ -192,28 +193,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
       return result;
-    }
+    };
 
-    function maxDigits(mask) {
-      var count = 0;
-      for (var i = 0; i < mask.length; i++) {
+    const maxDigits = (mask) => {
+      let count = 0;
+      for (let i = 0; i < mask.length; i++) {
         if (mask[i] === '#') count++;
       }
       return count;
-    }
+    };
 
     // ── Dropdown open/close ──
 
-    function clearFocusedOption() {
-      var options = dropdownEl.querySelectorAll('.phone-select__option');
-      options.forEach(function (opt) {
+    const clearFocusedOption = () => {
+      const options = dropdownEl.querySelectorAll('.phone-select__option');
+      options.forEach((opt) => {
         opt.classList.remove('phone-select__option--focused');
       });
       triggerEl.removeAttribute('aria-activedescendant');
-    }
+    };
 
-    function setFocusedOption(index) {
-      var options = dropdownEl.querySelectorAll('.phone-select__option');
+    const setFocusedOption = (index) => {
+      const options = dropdownEl.querySelectorAll('.phone-select__option');
       clearFocusedOption();
       if (index >= 0 && index < options.length) {
         focusedIndex = index;
@@ -221,64 +222,62 @@ document.addEventListener('DOMContentLoaded', function () {
         triggerEl.setAttribute('aria-activedescendant', options[index].id);
         options[index].scrollIntoView({ block: 'nearest' });
       }
-    }
+    };
 
-    function selectOption(index) {
-      var country = COUNTRIES[index];
-      if (!country) return;
-
-      selected = country;
-      flagEl.textContent = country.flag;
-      codeEl.textContent = country.code;
-
-      dropdownEl.querySelectorAll('.phone-select__option').forEach(function (opt) {
-        opt.setAttribute('aria-selected', opt.dataset.country === country.code ? 'true' : 'false');
-      });
-
-      setOpen(false);
-      inputEl.value = applyMask(stripDigits(inputEl.value), country.mask);
-      inputEl.focus();
-    }
-
-    function setOpen(open) {
+    const setOpen = (open) => {
       selectEl.dataset.open = open ? 'true' : 'false';
       triggerEl.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (!open) {
         focusedIndex = -1;
         clearFocusedOption();
       }
-    }
+    };
 
-    var focusedIndex = -1;
+    const selectOption = (index) => {
+      const country = COUNTRIES[index];
+      if (!country) return;
+
+      selected = country;
+      flagEl.textContent = country.flag;
+      codeEl.textContent = country.code;
+
+      dropdownEl.querySelectorAll('.phone-select__option').forEach((opt) => {
+        opt.setAttribute('aria-selected', opt.dataset.country === country.code ? 'true' : 'false');
+      });
+
+      setOpen(false);
+      inputEl.value = applyMask(stripDigits(inputEl.value), country.mask);
+      inputEl.focus();
+    };
 
     // ── Build dropdown options ──
 
-    COUNTRIES.forEach(function (country, index) {
-      var li = document.createElement('li');
+    COUNTRIES.forEach((country, index) => {
+      const li = document.createElement('li');
       li.className = 'phone-select__option';
       li.setAttribute('role', 'option');
       li.setAttribute('data-country', country.code);
-      li.id = 'phone-option-' + index;
+      li.id = `phone-option-${index}`;
       if (country.code === selected.code) {
         li.setAttribute('aria-selected', 'true');
       }
-      li.innerHTML =
-        '<span class="phone-select__option-flag">' + country.flag + '</span>' +
-        '<span>' + country.code + '</span>' +
-        '<span class="phone-select__option-code">' + country.dial + '</span>';
+      li.innerHTML = `
+        <span class="phone-select__option-flag">${country.flag}</span>
+        <span>${country.code}</span>
+        <span class="phone-select__option-code">${country.dial}</span>`;
       dropdownEl.appendChild(li);
     });
 
     // ── Event listeners ──
 
-    triggerEl.addEventListener('click', function (e) {
+    triggerEl.addEventListener('click', (e) => {
       e.stopPropagation();
       setOpen(selectEl.dataset.open !== 'true');
     });
 
-    triggerEl.addEventListener('keydown', function (e) {
-      var isOpen = selectEl.dataset.open === 'true';
-      var optionCount = COUNTRIES.length;
+    triggerEl.addEventListener('keydown', (e) => {
+      const isOpen = selectEl.dataset.open === 'true';
+      const optionCount = COUNTRIES.length;
 
       switch (e.key) {
         case 'ArrowDown':
@@ -331,33 +330,33 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    dropdownEl.addEventListener('click', function (e) {
-      var option = e.target.closest('.phone-select__option');
+    dropdownEl.addEventListener('click', (e) => {
+      const option = e.target.closest('.phone-select__option');
       if (!option) return;
 
-      var code = option.dataset.country;
-      var index = COUNTRIES.findIndex(function (c) { return c.code === code; });
+      const code = option.dataset.country;
+      const index = COUNTRIES.findIndex((c) => c.code === code);
       if (index === -1) return;
 
       selectOption(index);
     });
 
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', (e) => {
       if (!selectEl.contains(e.target)) setOpen(false);
     });
 
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && selectEl.dataset.open === 'true') setOpen(false);
     });
 
-    inputEl.addEventListener('input', function () {
-      var digits = stripDigits(this.value);
-      var max = maxDigits(selected.mask);
+    inputEl.addEventListener('input', (e) => {
+      let digits = stripDigits(e.target.value);
+      const max = maxDigits(selected.mask);
       if (digits.length > max) digits = digits.substring(0, max);
-      this.value = applyMask(digits, selected.mask);
+      e.target.value = applyMask(digits, selected.mask);
     });
 
-    inputEl.addEventListener('keydown', function (e) {
+    inputEl.addEventListener('keydown', (e) => {
       if (
         e.key &&
         e.key.length === 1 &&
@@ -371,9 +370,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // ── Public API ──
 
     return {
-      getCountry: function () { return selected; },
-      getDigits: function () { return stripDigits(inputEl.value); },
-      reset: function () {
+      getCountry: () => selected,
+      getDigits: () => stripDigits(inputEl.value),
+      reset: () => {
         selected = COUNTRIES[DEFAULT_INDEX];
         flagEl.textContent = selected.flag;
         codeEl.textContent = selected.code;
@@ -387,41 +386,41 @@ document.addEventListener('DOMContentLoaded', function () {
   //  File Upload Component (encapsulated)
   // ══════════════════════════════════════════════════════════════════════════
 
-  var fileUpload = (function () {
-    var ALLOWED_TYPES = [
+  const fileUpload = (() => {
+    const ALLOWED_TYPES = [
       'application/pdf',
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'application/vnd.oasis.opendocument.text'
     ];
-    var MAX_SIZE = 5 * 1024 * 1024;
+    const MAX_SIZE = 5 * 1024 * 1024;
 
-    var zone      = document.getElementById('file-upload-zone');
-    var fileInput = document.getElementById('file-upload');
-    var dragCounter = 0;
-    var uploadTimer = null;
+    const zone      = document.getElementById('file-upload-zone');
+    const fileInput = document.getElementById('file-upload');
+    let dragCounter = 0;
+    let uploadTimer = null;
 
-    var progressFilename = zone.querySelector('.file-upload__progress .file-upload__filename');
-    var progressFilesize = zone.querySelector('.file-upload__progress .file-upload__filesize');
-    var progressBarFill  = zone.querySelector('.file-upload__bar-fill');
-    var progressBar      = zone.querySelector('.file-upload__bar');
+    const progressFilename = zone.querySelector('.file-upload__progress .file-upload__filename');
+    const progressFilesize = zone.querySelector('.file-upload__progress .file-upload__filesize');
+    const progressBarFill  = zone.querySelector('.file-upload__bar-fill');
+    const progressBar      = zone.querySelector('.file-upload__bar');
 
-    var completedFilename = zone.querySelector('.file-upload__completed .file-upload__filename');
-    var completedSize     = zone.querySelector('.file-upload__completed-size');
+    const completedFilename = zone.querySelector('.file-upload__completed .file-upload__filename');
+    const completedSize     = zone.querySelector('.file-upload__completed-size');
 
-    var progressRegion   = zone.querySelector('.file-upload__progress');
-    var completedRegion  = zone.querySelector('.file-upload__completed');
+    const progressRegion   = zone.querySelector('.file-upload__progress');
+    const completedRegion  = zone.querySelector('.file-upload__completed');
 
     // ── Helpers ──
 
-    function formatSize(bytes) {
-      if (bytes < 1024) return bytes + ' B';
-      var kb = bytes / 1024;
-      if (kb < 1024) return Math.round(kb) + ' KB';
-      return (kb / 1024).toFixed(1) + ' MB';
-    }
+    const formatSize = (bytes) => {
+      if (bytes < 1024) return `${bytes} B`;
+      const kb = bytes / 1024;
+      if (kb < 1024) return `${Math.round(kb)} KB`;
+      return `${(kb / 1024).toFixed(1)} MB`;
+    };
 
-    function reset() {
+    const reset = () => {
       clearInterval(uploadTimer);
       uploadTimer = null;
       fileInput.value = '';
@@ -429,11 +428,44 @@ document.addEventListener('DOMContentLoaded', function () {
       dragCounter = 0;
       progressRegion.setAttribute('aria-label', 'File upload progress');
       completedRegion.setAttribute('aria-label', 'File upload completed');
-    }
+    };
 
     // ── File handling ──
 
-    function handleFile(file) {
+    const startUpload = (file) => {
+      const totalSize = file.size;
+      const totalFormatted = formatSize(totalSize);
+
+      progressFilename.textContent = file.name;
+      progressBarFill.style.width = '0%';
+      zone.dataset.state = 'uploading';
+      progressRegion.setAttribute('aria-label', `Uploading file: ${file.name}`);
+
+      let progress = 0;
+
+      clearInterval(uploadTimer);
+      uploadTimer = setInterval(() => {
+        progress += 2;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(uploadTimer);
+          uploadTimer = null;
+          setTimeout(() => {
+            completedFilename.textContent = file.name;
+            completedSize.textContent = `${totalFormatted} of ${totalFormatted}`;
+            completedRegion.setAttribute('aria-label', `Upload completed: ${file.name}`);
+            zone.dataset.state = 'completed';
+          }, 300);
+        }
+
+        const loaded = Math.round((progress / 100) * totalSize);
+        progressFilesize.textContent = `${formatSize(loaded)} of ${totalFormatted}`;
+        progressBarFill.style.width = `${progress}%`;
+        progressBar.setAttribute('aria-valuenow', progress);
+      }, 60);
+    };
+
+    const handleFile = (file) => {
       if (ALLOWED_TYPES.indexOf(file.type) === -1) {
         alert('File type not allowed. Please select a PDF, DOC, or ODT file.');
         reset();
@@ -445,66 +477,33 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
       startUpload(file);
-    }
-
-    function startUpload(file) {
-      var totalSize = file.size;
-      var totalFormatted = formatSize(totalSize);
-
-      progressFilename.textContent = file.name;
-      progressBarFill.style.width = '0%';
-      zone.dataset.state = 'uploading';
-      progressRegion.setAttribute('aria-label', 'Uploading file: ' + file.name);
-
-      var progress = 0;
-
-      clearInterval(uploadTimer);
-      uploadTimer = setInterval(function () {
-        progress += 2;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(uploadTimer);
-          uploadTimer = null;
-          setTimeout(function () {
-            completedFilename.textContent = file.name;
-            completedSize.textContent = totalFormatted + ' of ' + totalFormatted;
-            completedRegion.setAttribute('aria-label', 'Upload completed: ' + file.name);
-            zone.dataset.state = 'completed';
-          }, 300);
-        }
-
-        var loaded = Math.round((progress / 100) * totalSize);
-        progressFilesize.textContent = formatSize(loaded) + ' of ' + totalFormatted;
-        progressBarFill.style.width = progress + '%';
-        progressBar.setAttribute('aria-valuenow', progress);
-      }, 60);
-    }
+    };
 
     // ── Event listeners ──
 
-    zone.querySelectorAll('.file-upload__remove').forEach(function (btn) {
-      btn.addEventListener('click', function (e) {
+    zone.querySelectorAll('.file-upload__remove').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
         e.preventDefault();
         reset();
       });
     });
 
-    var dragoverArea = zone.querySelector('.file-upload__dragover');
-    dragoverArea.addEventListener('click', function () {
+    const dragoverArea = zone.querySelector('.file-upload__dragover');
+    dragoverArea.addEventListener('click', () => {
       fileInput.click();
     });
 
-    zone.addEventListener('dragenter', function (e) {
+    zone.addEventListener('dragenter', (e) => {
       e.preventDefault();
       dragCounter++;
       if (zone.dataset.state === 'idle') zone.dataset.state = 'dragover';
     });
 
-    zone.addEventListener('dragover', function (e) {
+    zone.addEventListener('dragover', (e) => {
       e.preventDefault();
     });
 
-    zone.addEventListener('dragleave', function (e) {
+    zone.addEventListener('dragleave', (e) => {
       e.preventDefault();
       dragCounter--;
       if (dragCounter <= 0) {
@@ -513,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    zone.addEventListener('drop', function (e) {
+    zone.addEventListener('drop', (e) => {
       e.preventDefault();
       dragCounter = 0;
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
@@ -523,12 +522,12 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    fileInput.addEventListener('change', function () {
-      if (this.files && this.files.length > 0) handleFile(this.files[0]);
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) handleFile(e.target.files[0]);
     });
 
     // ── Public API ──
 
-    return { reset: reset };
+    return { reset };
   })();
 });
